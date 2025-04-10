@@ -148,6 +148,8 @@ def main():
     ani = utils.sameAxisAnimation(t_all, traj.wps, pos_all, quat_all, sDes_traj_all, Ts, quad.params, traj.xyzType, traj.yawType, ifsave)
     plt.show()
 
+    np.savez('simulation_results.npz', t=t_all, pos=pos_all, vel=vel_all, quat=quat_all, omega=omega_all, euler=euler_all, w_cmd=w_cmd_all, wMotor=wMotor_all, thr=thr_all, tor=tor_all, sDes_traj=sDes_traj_all, sDes_calc=sDes_calc_all)
+
 if __name__ == "__main__":
     if (config.orient == "NED" or config.orient == "ENU"):
         main()
