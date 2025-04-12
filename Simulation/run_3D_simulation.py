@@ -43,7 +43,7 @@ def main():
     # --------------------------- 
     Ti = 0
     Ts = 0.005
-    Tf = 20
+    Tf = 10
     ifsave = 0
 
     # Choose trajectory settings
@@ -58,7 +58,7 @@ def main():
     #                                  7: minimum accel_stop        8: minimum jerk_stop        9: minimum snap_stop
     #                                 10: minimum jerk_full_stop   11: minimum snap_full_stop
     #                                 12: pos_waypoint_arrived     13: pos_waypoint_arrived_wait
-    trajSelect[0] = 5         
+    trajSelect[0] = 2
     # Select Yaw Trajectory Type      (0: none                      1: yaw_waypoint_timed,      2: yaw_waypoint_interp     3: follow          4: zero)
     trajSelect[1] = 3           
     # Select if waypoint time is used, or if average speed is used to calculate waypoint time   (0: waypoint time,   1: average speed)
@@ -71,6 +71,9 @@ def main():
     traj = Trajectory(quad, ctrlType, trajSelect)
     ctrl = Control(quad, traj.yawType)
     wind = Wind('None', 2.0, 90, -15)
+    # wind = Wind('SINE', 2.0, 90, -15) # Wind velocity amplitude 1
+    # wind = Wind('RANDOMSINE', 2.0, 0, 90, -15, 0, 90, -15) # Wind velocity amplitude 1
+    # wind = Wind('FIXED', 2.0, 90, -15) # Wind velocity amplitude 1
 
     # Trajectory for First Desired States
     # ---------------------------
