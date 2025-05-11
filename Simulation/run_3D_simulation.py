@@ -15,6 +15,7 @@ from trajectory import Trajectory
 from ctrl import Control
 from quadFiles.quad import Quadcopter
 from utils.windModel import Wind
+from obstacles import make_obstacles
 import utils
 import config
 
@@ -43,7 +44,7 @@ def main():
     # --------------------------- 
     Ti = 0
     Ts = 0.005
-    Tf = 20
+    Tf = 10
     ifsave = 0
 
     # Choose trajectory settings
@@ -65,19 +66,20 @@ def main():
     trajSelect[2] = 1           
     print("Control type: {}".format(ctrlType))
 
+    # Obstacle Set up
+    # ---------------------------
+    obstacles, obstacle_radii = make_obstacles()
+
     # Initialize Quadcopter, Controller, Wind, Result Matrixes
     # ---------------------------
     quad = Quadcopter(Ti)
-    traj = Trajectory(quad, ctrlType, trajSelect)
+    traj = Trajectory(quad, ctrlType, trajSelect, obstacles, obstacle_radii)
     ctrl = Control(quad, traj.yawType)
-    wind = Wind('None', 2.0, 90, -15)
-    # wind = Wind('SINE', 2.0, 90, -15) # Wind velocity amplitude 1
-    # wind = Wind('RANDOMSINE', 2.0, 0, 90, -15, 0, 90, -15) # Wind velocity amplitude 1
-    # wind = Wind('FIXED', 2.0, 90, -15) # Wind velocity amplitude 1
+    wind = Wind('None')
 
     # Trajectory for First Desired States
     # ---------------------------
-    sDes = traj.desiredState(0, Ts, quad)        
+    sDes = traj.desiredState(0, Ts, quad)  
 
     # Generate First Commands
     # ---------------------------

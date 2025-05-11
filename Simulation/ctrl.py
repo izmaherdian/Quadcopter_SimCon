@@ -26,9 +26,9 @@ deg2rad = pi/180.0
 # ---------------------------
 
 # Position P gains
-Py    = 1.0
+Py    = 2
 Px    = Py
-Pz    = 1.0
+Pz    = 2
 
 pos_P_gain = np.array([Px, Py, Pz])
 
