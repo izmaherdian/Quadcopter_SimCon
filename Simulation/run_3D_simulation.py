@@ -147,11 +147,11 @@ def main():
     # ---------------------------
 
     # utils.fullprint(sDes_traj_all[:,3:6])
-    utils.makeFigures(quad.params, t_all, pos_all, vel_all, quat_all, omega_all, euler_all, w_cmd_all, wMotor_all, thr_all, tor_all, sDes_traj_all, sDes_calc_all)
+    # utils.makeFigures(quad.params, t_all, pos_all, vel_all, quat_all, omega_all, euler_all, w_cmd_all, wMotor_all, thr_all, tor_all, sDes_traj_all, sDes_calc_all)
     ani = utils.sameAxisAnimation(t_all, traj.wps, pos_all, quat_all, sDes_traj_all, Ts, quad.params, traj.xyzType, traj.yawType, ifsave)
     plt.show()
 
-    np.savez('simulation_results.npz', t=t_all, pos=pos_all, vel=vel_all, quat=quat_all, omega=omega_all, euler=euler_all, w_cmd=w_cmd_all, wMotor=wMotor_all, thr=thr_all, tor=tor_all, sDes_traj=sDes_traj_all, sDes_calc=sDes_calc_all)
+    # np.savez('simulation_results.npz', t=t_all, pos=pos_all, vel=vel_all, quat=quat_all, omega=omega_all, euler=euler_all, w_cmd=w_cmd_all, wMotor=wMotor_all, thr=thr_all, tor=tor_all, sDes_traj=sDes_traj_all, sDes_calc=sDes_calc_all)
 
 if __name__ == "__main__":
     if (config.orient == "NED" or config.orient == "ENU"):
