@@ -58,7 +58,7 @@ def main():
     #                                  7: minimum accel_stop        8: minimum jerk_stop        9: minimum snap_stop
     #                                 10: minimum jerk_full_stop   11: minimum snap_full_stop
     #                                 12: pos_waypoint_arrived     13: pos_waypoint_arrived_wait
-    trajSelect[0] = 13         
+    trajSelect[0] = 5         
     # Select Yaw Trajectory Type      (0: none                      1: yaw_waypoint_timed,      2: yaw_waypoint_interp     3: follow          4: zero)
     trajSelect[1] = 3           
     # Select if waypoint time is used, or if average speed is used to calculate waypoint time   (0: waypoint time,   1: average speed)
@@ -71,6 +71,9 @@ def main():
     traj = Trajectory(quad, ctrlType, trajSelect)
     ctrl = Control(quad, traj.yawType)
     wind = Wind('None', 2.0, 90, -15)
+    # wind = Wind('SINE', 2.0, 90, -15) # Wind velocity amplitude 1
+    # wind = Wind('RANDOMSINE', 2.0, 0, 90, -15, 0, 90, -15) # Wind velocity amplitude 1
+    # wind = Wind('FIXED', 2.0, 90, -15) # Wind velocity amplitude 1
 
     # Trajectory for First Desired States
     # ---------------------------
@@ -147,6 +150,8 @@ def main():
     utils.makeFigures(quad.params, t_all, pos_all, vel_all, quat_all, omega_all, euler_all, w_cmd_all, wMotor_all, thr_all, tor_all, sDes_traj_all, sDes_calc_all)
     ani = utils.sameAxisAnimation(t_all, traj.wps, pos_all, quat_all, sDes_traj_all, Ts, quad.params, traj.xyzType, traj.yawType, ifsave)
     plt.show()
+
+    np.savez('simulation_results.npz', t=t_all, pos=pos_all, vel=vel_all, quat=quat_all, omega=omega_all, euler=euler_all, w_cmd=w_cmd_all, wMotor=wMotor_all, thr=thr_all, tor=tor_all, sDes_traj=sDes_traj_all, sDes_calc=sDes_calc_all)
 
 if __name__ == "__main__":
     if (config.orient == "NED" or config.orient == "ENU"):

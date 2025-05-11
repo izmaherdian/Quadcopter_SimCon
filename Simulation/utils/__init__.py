@@ -4,3 +4,4 @@ from .mixer import *
 from .display import *
 from .animation import *
 from .quaternionFunctions import *
+from .windModel import *
