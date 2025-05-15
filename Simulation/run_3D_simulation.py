@@ -15,6 +15,7 @@ from trajectory import Trajectory
 from ctrl import Control
 from quadFiles.quad import Quadcopter
 from utils.windModel import Wind
+from obstacles import make_obstacles
 import utils
 import config
 
@@ -65,16 +66,20 @@ def main():
     trajSelect[2] = 1           
     print("Control type: {}".format(ctrlType))
 
+    # Obstacle Set up
+    # ---------------------------
+    obstacles, obstacle_radii = make_obstacles()
+
     # Initialize Quadcopter, Controller, Wind, Result Matrixes
     # ---------------------------
     quad = Quadcopter(Ti)
-    traj = Trajectory(quad, ctrlType, trajSelect)
+    traj = Trajectory(quad, ctrlType, trajSelect, obstacles, obstacle_radii)
     ctrl = Control(quad, traj.yawType)
-    wind = Wind('None', 2.0, 90, -15)
+    wind = Wind('None')
 
     # Trajectory for First Desired States
     # ---------------------------
-    sDes = traj.desiredState(0, Ts, quad)        
+    sDes = traj.desiredState(0, Ts, quad)  
 
     # Generate First Commands
     # ---------------------------
@@ -147,6 +152,8 @@ def main():
     # utils.makeFigures(quad.params, t_all, pos_all, vel_all, quat_all, omega_all, euler_all, w_cmd_all, wMotor_all, thr_all, tor_all, sDes_traj_all, sDes_calc_all)
     ani = utils.sameAxisAnimation(t_all, traj.wps, pos_all, quat_all, sDes_traj_all, Ts, quad.params, traj.xyzType, traj.yawType, ifsave)
     plt.show()
+
+    # np.savez('simulation_results.npz', t=t_all, pos=pos_all, vel=vel_all, quat=quat_all, omega=omega_all, euler=euler_all, w_cmd=w_cmd_all, wMotor=wMotor_all, thr=thr_all, tor=tor_all, sDes_traj=sDes_traj_all, sDes_calc=sDes_calc_all)
 
 if __name__ == "__main__":
     if (config.orient == "NED" or config.orient == "ENU"):

@@ -17,7 +17,7 @@ import config
 
 numFrames = 8
 
-def sameAxisAnimation(t_all, waypoints, pos_all, quat_all, sDes_tr_all, Ts, params, xyzType, yawType, ifsave):
+def sameAxisAnimation(t_all, waypoints, pos_all, quat_all, sDes_tr_all, Ts, params, xyzType, yawType, ifsave, obstacles, obstacle_radii):
 
     x = pos_all[:,0]
     y = pos_all[:,1]
@@ -160,11 +160,15 @@ def sameAxisAnimation(t_all, waypoints, pos_all, quat_all, sDes_tr_all, Ts, para
         line3.set_data(np.empty([1]), np.empty([1]))
         line3.set_3d_properties(np.empty([1]))
 
+        # Plot obstacles as scatter points with radius indicated by size
+        for i, obstacle in enumerate(obstacles):
+            ax.scatter(obstacle[0], obstacle[1], obstacle[2], color='red', s=(obstacle_radii[i] * 1000), alpha=0.5)
+
         return line1, line2, line3
 
         
     # Creating the Animation object
-    line_ani = animation.FuncAnimation(fig, updateLines, init_func=ini_plot, frames=len(t_all[0:-2:numFrames]), interval=(Ts*1000*numFrames), blit=False)
+    line_ani = animation.FuncAnimation(fig, updateLines, init_func=ini_plot, frames=len(t_all[0:-2:numFrames]), interval=(Ts*1000*numFrames), blit=False, repeat=False)
     
     if (ifsave):
         line_ani.save('Gifs/Raw/animation_{0:.0f}_{1:.0f}.gif'.format(xyzType,yawType), dpi=80, writer='imagemagick', fps=25)
